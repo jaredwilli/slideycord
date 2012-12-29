@@ -65,6 +65,7 @@ h1 {
 /* Thumbnails */
 
 section ul {
+    position: relative;
     margin: 15px 0 0 10px;
     padding: 0;
     height: 0;
@@ -80,7 +81,7 @@ section ul {
 }
 
 section.active .thumbs,
-section:first-child.active .bullets {
+section.active .bullets {
     display: block;
     height: auto;
 }
@@ -118,26 +119,28 @@ section:first-child.active .bullets {
 
 /* Thumbnail Bullet Nav */
 
-#accordion .bullets {
+.bullets {
     list-style: none;
     text-align: center;
     margin: 0 auto;
 }
-#accordion .bullets li {
+.bullets li {
     display: inline-block;
     height: 16px;
     margin: 0 3px;
     overflow: hidden;
 }
-#accordion .bullets a {
+.bullets a {
     background: url(../assets/bullet.png) no-repeat 0 0;
     text-indent: -999em;
     position: relative;
     padding: 0 6px;
 }
-#accordion .bullets .current a {
+.bullets li:hover a,
+.bullets li.active a {
     background-position: 0 -12px;
 }
+
 
 /* Slides */
 
