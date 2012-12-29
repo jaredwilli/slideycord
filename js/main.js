@@ -68,10 +68,10 @@ var Slider = {
 	thumbnails: function(thumb, section) {
 		if ($(thumb).parent().hasClass('active')) return;
 
-		section.removeClass('active').find('.thumbs, .bullets').hide().find('.thumbs li').removeClass('selected');
+		section.removeClass('active').find('.thumbs li').removeClass('selected');
 		section.find('.expand').text('+');
 
-		$(thumb).find('.expand').text('-').parents('section').addClass('active').find('.thumbs, .bullets').show().find('li:first').addClass('selected');
+		$(thumb).find('.expand').text('-').parents('section').addClass('active').find('li:first').addClass('selected');
 	},
 	thumbEvents: function(thumb, index) {
 		$('.thumbs').find('li').removeClass('selected');

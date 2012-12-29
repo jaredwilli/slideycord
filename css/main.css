@@ -62,45 +62,43 @@ h1 {
     cursor: default;
 }
 
-#accordion ul {
-    margin: 20px 0 10px 10px;
+/* Thumbnails */
+
+section ul {
+    margin: 15px 0 0 10px;
     padding: 0;
     height: 0;
 }
-#accordion .active ul {
-    height: initial;
+.thumbs li {
+    margin: 0 5px;
 }
-#accordion li {
-    margin: 0 6px;
-}
-#accordion li:first-child {
+.thumbs li:first-child {
     margin-left: 5px;
 }
-#accordion li:last-child {
+.thumbs li:last-child {
     margin-right: 5px;
 }
 
-/* Thumbnails */
+section.active .thumbs,
+section:first-child.active .bullets {
+    display: block;
+    height: auto;
+}
 
-.thumbs, .bullets {
+.thumbs,
+.bullets {
     list-style: none;
     display: none;
-}
-#accordion section.active .thumbs,
-#accordion section:first-child.active .bullets {
-    display: block;
 }
 
 .thumbs li {
     display: inline-block;
     width: auto;
-    height: 59px;
-    overflow: hidden;
-}
-
+ }
 .thumbs li a {
     border: 6px solid #fff;
     display: inline-block;
+    height: 59px;
 
     -webkit-border-radius: 6px;
             border-radius: 6px;
@@ -137,7 +135,7 @@ h1 {
     position: relative;
     padding: 0 6px;
 }
-#accordion .bullets .current a{
+#accordion .bullets .current a {
     background-position: 0 -12px;
 }
 
@@ -146,8 +144,8 @@ h1 {
 #slides {
     display: inline-block;
     position: relative;
-    left: 20px;
     float: left;
+    left: 20px;
     width: 612px;
     margin: 0 20px;
     overflow: hidden;
