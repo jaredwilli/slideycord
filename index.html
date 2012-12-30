@@ -23,11 +23,11 @@
 
 <div id="slider">
     <div id="accordion">
-        <section class="eyes">
+        <section id="eyes">
             <h1><span class="expand">+</span> Eyes</h1>
 
             <ul class="thumbs">
-                <li id="group-0" class="first firstSlide"><a href="#eye1"><img src="assets/eye1t.jpg"></a></li>
+                <li id="group-0" class="first"><a href="#eye1"><img src="assets/eye1t.jpg"></a></li>
                 <li><a href="#eye2"><img src="assets/eye2t.jpg"></a></li>
                 <li><a href="#eye3"><img src="assets/eye3t.jpg"></a></li>
                 <li id="group-1"><a href="#eye4"><img src="assets/eye4t.jpg"></a></li>
@@ -35,7 +35,7 @@
                 <li><a href="#eye6"><img src="assets/eye6t.jpg"></a></li>
                 <li id="group-2"><a href="#eye7"><img src="assets/eye7t.jpg"></a></li>
                 <li><a href="#eye8"><img src="assets/eye8t.jpg"></a></li>
-                <li><a href="#eye9" class="last"><img src="assets/eye9t.jpg"></a></li>
+                <li><a href="#eye9"><img src="assets/eye9t.jpg"></a></li>
             </ul>
 
             <ul class="bullets">
@@ -45,30 +45,32 @@
             </ul>
         </section>
 
-        <section class="forehead">
+        <section id="forehead">
             <h1><span class="expand">+</span> Forehead</h1>
 
             <ul class="thumbs">
-                <li class="first"><a href="#head10"><img src="assets/head1t.jpg"></a></li>
-                <li class="last"><a href="#head11"><img src="assets/head2t.jpg"></a></li>
+                <li><a href="#head10"><img src="assets/head10t.jpg"></a></li>
+                <li><a href="#head11"><img src="assets/head11t.jpg"></a></li>
             </ul>
         </section>
 
-        <section class="lips">
+        <section id="lips">
             <h1><span class="expand">+</span> Lip Area</h1>
 
             <ul class="thumbs">
-                <li class="first last lastSlide"><a href="#lip12"><img src="assets/lip1t.jpg"></a></li>
+                <li class="last"><a href="#lip12"><img src="assets/lip12t.jpg"></a></li>
             </ul>
         </section>
     </div>
 
     <div id="slides">
-        <a href="#" class="prev"></a>
-        <a href="#" class="next"></a>
+        <span class="arrows">
+            <a id="prev" href="#"><span>«</span></a>
+            <a id="next" href="#"><span>»</span></a>
+        </span>
 
         <ul class="images">
-            <li id="eye1"><a href="#"><img src="assets/eye1.jpg"></a></li>
+            <li id="eye1" class="first"><a href="#"><img src="assets/eye1.jpg"></a></li>
             <li id="eye2"><a href="#"><img src="assets/eye2.jpg"></a></li>
             <li id="eye3"><a href="#"><img src="assets/eye3.jpg"></a></li>
             <li id="eye4"><a href="#"><img src="assets/eye4.jpg"></a></li>
@@ -77,18 +79,16 @@
             <li id="eye7"><a href="#"><img src="assets/eye7.jpg"></a></li>
             <li id="eye8"><a href="#"><img src="assets/eye8.jpg"></a></li>
             <li id="eye9"><a href="#"><img src="assets/eye9.jpg"></a></li>
-
-            <li id="head1"><a href="#"><img src="assets/head1.jpg"></a></li>
-            <li id="head2"><a href="#"><img src="assets/head2.jpg"></a></li>
-
-            <li id="lip1"><a href="#"><img src="assets/lip1.jpg"></a></li>
+            <li id="head10"><a href="#"><img src="assets/head10.jpg"></a></li>
+            <li id="head11"><a href="#"><img src="assets/head11.jpg"></a></li>
+            <li id="lip12" class="last"><a href="#"><img src="assets/lip12.jpg"></a></li>
         </ul>
     </div>
 
 </div>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
-<!-- <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.3.min.js"><\/script>')</script> -->
+<script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
 
 <script src="js/plugins.js"></script>
 <script src="js/main.js"></script>

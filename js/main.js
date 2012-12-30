@@ -7,115 +7,70 @@
  */
 
 var Slider = {
-	sections: null,
-	thumbs: null,
-	bullets: null,
+	activeSlide: '#eye1',
+	activeSection: '#eyes',
+	activePage: '#group-0',
+	prevSlide: '#lip12',
+	nextSlide: '#eye2',
 
 	init: function() {
-		// Create slider
-		Slider.anything($('.images'));
+		var sections = document.getElementsByTagName('section'),
+			thumbs = $('.thumbs'),
+			bullets = $('li', '.bullets');
 
-		//console.log($('.images').anythingSlider());
+		// Setup the initial state of the activeSlide, section, bullet and arrows
+		$(Slider.activeSection +', .thumbs li:first, .bullets li:first').addClass('active');
+		$(Slider.activeSection).find('.thumbs li, .bullets li').show();
+		$(Slider.activeSection).find('.expand').text('-');
+		$('#prev').attr('href', Slider.prevSlide);
+		$('#next').attr('href', Slider.nextSlide);
 
-		// if ($('.activePage') {
-		//	Slider.thumbnails();
-		// }
+		// Handle clicks on the sections of accordion
+		$('h1').on('click', function(e) {
+			e.preventDefault();
+			if ($(this).parent().hasClass('active')) return;
 
-		var sections = $('section', '#accordion'),
-			thumbs = $('li', '.thumbs'),
-			bullets = $('li', '.bullets'),
-			first = $('section:first, .bullets li:first, .thumbs li:first');
+			Slider.activeSection = '#' + $(this).parent().attr('id');
+			Slider.activeSlide = $(Slider.activeSection).find('.thumbs li:first a').attr('href').split('t')[0];
 
-		this.sections = this.toArray(sections);
-		this.thumbs = this.toArray(thumbs);
-		this.bullets = this.toArray(bullets);
-
-
-		first.addClass('active');
-		first.find('.expand').text('-');
-
-		// Control the accordion section clicks
-		[].forEach.call(this.sections, function(section, s) {
-			//console.log(section);
-			$(section).find('h1').on('click', function(e) {
-				Slider.highlight('section', $(this), s);
-				e.preventDefault();
-			});
+			Slider.collapse();
 		});
 
-		// Handle the thumbnail clicks
-		[].forEach.call(this.thumbs, function(thumb, t) {
-			//console.log(thumb);
-			$(thumb).on('click', function(e) {
-				Slider.highlight('thumb', $(this), t);
-				e.preventDefault();
-			});
+		// Handle clicks on the bullet nav
+		$(bullets).find('a').on('click', function(e) {
+			e.preventDefault();
+			if ($(this).parent().hasClass('active')) return;
+			Slider.activePage = $(this).attr('href');
+
+			$('.thumbs li, .bullets li').removeClass('active');
+			$(this).parent().addClass('active');
+
+			Slider.goToPage();
 		});
 
-		// Handle the thumbnail clicks
-		[].forEach.call(this.bullets, function(bullet, b) {
-			//console.log(bullet);
-			$(bullet).on('click', function(e) {
-				$(bullets).removeClass('active');
-				$(this).addClass('active');
-				Slider.highlight('bullet', $(this), b);
-				e.preventDefault();
-			});
+		// Handle clicks on thumbnails
+		$('.thumbs li').find('a').on('click', function(e) {
+			e.preventDefault();
+			if ($(this).parent().hasClass('active')) return;
+
+			Slider.activeSlide = $(this).attr('href');
+
+			$('.thumbs').find('li').removeClass('active');
+			$(this).parent().addClass('active');
+
+			Slider.moveToSlide();
 		});
-	},
 
-	/**
-	 * Highlight called by the click events for thumbnails arrows and bullet page nav for thumbs
-	 *
-	 * It takes the node element clicked, and it's index. Used to get the slide to highlight
-	 */
-	highlight: function(type, node, index) {
-		//console.log(node, index, $(node).closest('section'));
+		// Handle clicks on the next / previous links
+		$('.arrows').find('a').on('click', function(e) {
+			e.preventDefault();
 
-		switch(type) {
+			Slider.activeSlide = $(this).attr('href');
+			//$(this).attr('id');
 
-			case 'section':
-				console.log(node, index);
-				if ($(node).parent().hasClass('active')) return;
+			Slider.moveToSlide();
+		});
 
-				$('section, .thumbs li, .bullets li').removeClass('active');
-				$('section').find('.expand').text('+');
-
-				$(node).parent().addClass('active').find('.thumbs li:first, .bullets li:first').addClass('active');
-				$(node).find('.expand').text('-');
-
-				var href = $('section:eq('+ index +') .thumbs').find('li:first a').attr('href').split('#')[1];
-				console.log(Slider.thumbs, Slider.thumbs[$('.thumbs li.active').index()]);
-				this.moveToSlide();
-				break;
-
-			case 'thumb':
-				console.log(node, index);
-
-				this.moveToSlide(index);
-				break;
-
-			case 'bullet':
-				//console.log(node, index);
-				var left = -1;
-				if (index === 1) {
-					left = -337;
-				} else if (index === 2) {
-					left = -673;
-				}
-				var slide = $(node).parents('.active').find('.thumbs').css({ left: left +'px' });
-				$('.thumbs li').removeClass('active');
-				$('#group-'+ index).addClass('active');
-
-				this.moveToSlide($('#group-'+ index).index());
-				break;
-
-			case 'arrow':
-				console.log(node, index);
-
-				//this.moveToSlide(index);
-				break;
-		}
 	},
 
 	/**
@@ -124,13 +79,15 @@ var Slider = {
 	 *
 	 * And change the - to a + in the H1 tag
 	 */
-	collapse: function(section, index) {
-		if ($(section).hasClass('active')) return;
+	collapse: function() {
+		console.log(Slider.activeSection);
 
-		section.removeClass('active').find('.thumbs li').removeClass('selected');
-		section.find('.expand').text('+');
+		$('section').find('.thumbs').css({ left: 0 });
+		$('section, .thumbs li, .bullets li').removeClass('active');
+		$('section').find('.thumbs li, .bullets li').hide();
+		$('section').find('.expand').text('+');
 
-		this.expand(section);
+		Slider.expand();
 	},
 
 	/**
@@ -140,20 +97,55 @@ var Slider = {
 	 * and change the + to a - in the H1 tag
 	 * and if necessary, make first bullet of thumbnail page nav active
 	 */
-	expand: function(section, index) {
+	expand: function() {
+		//console.log(Slider.activeSection);
+		console.log();
+
 		// Need to get the index of the first thumbnail of the expanded section
-		section.find('.thumbs').css({ height: 'toggle' });
+		$(Slider.activeSection).find('.expand').text('-');
+		$(Slider.activeSection).addClass('active').find('.thumbs, .bullets').find('li:first').addClass('active');
+		$(Slider.activeSection).addClass('active').find('.thumbs, .bullets').find('li').show();
 
-
-		// Use the index to display the correct slide
-		this.moveToSlide(index);
+		Slider.moveToSlide();
 	},
 	/**
-	 * MoveToSlide called when by the highlight method only
-	 * that way it will only need to be called once.
+	 * MoveToSlide called by the expand method and the goToPage method
+	 * for moving the slider of large images to the currently activeSlide
+	 *
+	 * This is the last method called
 	 */
-	moveToSlide: function(index) {
-		$('.images').anythingSlider(index);
+	moveToSlide: function() {
+		var images = $('.images').find('li');
+
+		images.hide();
+		$(Slider.activeSlide).show();
+
+		// Set the next/previous href values according to the activeSlide
+		Slider.prevSlide = '#' + $(Slider.activeSlide).prev().attr('id');
+		Slider.nextSlide = '#' + $(Slider.activeSlide).next().attr('id');
+
+		$('#prev').attr('href', Slider.prevSlide);
+		$('#next').attr('href', Slider.nextSlide);
+	},
+	/**
+	 * GoToPage called when clicking on bullet nav icons
+	 * for showing the next group of 3 thumbnails that exist if any
+	 */
+	goToPage: function() {
+		Slider.activeSlide = $(Slider.activePage).find('a').attr('href');
+
+		$('.thumbs').find('li').removeClass('active');
+		$('.thumbs').find(Slider.activePage).addClass('active');
+
+		if ($('#group-0').hasClass('active')) {
+			$('#group-0').parent().css({ left: 0 });
+		} else if ($('#group-1').hasClass('active')) {
+			$('#group-1').parent().css({ left: -336 +'px' });
+		} else if ($('#group-2').hasClass('active')) {
+			$('#group-2').parent().css({ left: -672 +'px' });
+		}
+
+		Slider.moveToSlide();
 	},
 
 	toArray: function(nodes) {

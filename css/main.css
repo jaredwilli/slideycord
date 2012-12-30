@@ -27,7 +27,7 @@ body {
 #accordion {
     display: inline-block;
     position: relative;
-    width: 350px;
+    width: 345px;
     float: left;
     padding: 0;
 }
@@ -53,7 +53,7 @@ h1 {
     font-weight: normal;
     font-size: 22px;
     cursor: pointer;
-    padding: 8px 12px;
+    padding: 12px;
     margin: 0;
 }
 .active h1 {
@@ -66,7 +66,7 @@ h1 {
 
 section ul {
     position: relative;
-    margin: 15px 0 0 10px;
+    margin: 15px 0 0 6px;
     padding: 0;
     height: 0;
 }
@@ -80,18 +80,20 @@ section ul {
     margin-right: 5px;
 }
 
+section.active .thumbs {
+    height: 75px;
+}
 section.active .thumbs,
 section.active .bullets {
     display: block;
-    height: auto;
 }
+
 
 .thumbs,
 .bullets {
     list-style: none;
     display: none;
 }
-
 .thumbs li {
     display: inline-block;
     width: auto;
@@ -99,7 +101,7 @@ section.active .bullets {
 .thumbs li a {
     border: 6px solid #fff;
     display: inline-block;
-    height: 59px;
+    height: 61px;
 
     -webkit-border-radius: 6px;
             border-radius: 6px;
@@ -112,7 +114,7 @@ section.active .bullets {
     border: 6px solid #58C0CB;
 }
 
-.eyes .thumbs {
+#eyes .thumbs {
     width: 1060px;
 }
 
@@ -122,7 +124,9 @@ section.active .bullets {
 .bullets {
     list-style: none;
     text-align: center;
+    height: 27px;
     margin: 0 auto;
+    margin-top: -10px;
 }
 .bullets li {
     display: inline-block;
@@ -156,14 +160,42 @@ section.active .bullets {
 #slides ul {
     list-style: none;
     margin: 0;
+    height: 300px;
 }
 #slides li {
     display: inline-block;
+    position: absolute;
     width: auto;
     margin: 0;
 }
 #slides li a {
     display: inline-block;
+}
+
+#slides ul .first {
+    z-index: 10;
+}
+
+.arrows {
+    position: relative;
+}
+.arrows a {
+    background: url(../assets/results-arrows.png) no-repeat 0 50%;
+    width: 40px;
+    height: 300px;
+    padding: 20px;
+    float: left;
+}
+#prev {
+
+}
+#next {
+    background-position: -60px 50%;
+    float: right;
+}
+.arrows span {
+    text-indent: -999em;
+    display: none;
 }
 
 /*
