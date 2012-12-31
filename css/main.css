@@ -8,6 +8,7 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 
    ========================================================================== */
 
+/* Normalize some things */
 * {
     -webkit-box-sizing: border-box;
        -moz-box-sizing: border-box;
@@ -15,36 +16,13 @@ article,aside,details,figcaption,figure,footer,header,hgroup,nav,section,summary
 }
 
 body {
-    font: 16px/26px Helvetica, Helvetica Neue, Arial;
+    font: 16px/26px "Lucida Sans Unicode", "Helvetica", "Helvetica Neue";
     max-width: 1047px;
     margin: 0 auto;
+    color: #333;
 }
 
-#slider {
-    position: relative;
-    top: 100px;
-}
-#accordion {
-    display: inline-block;
-    position: relative;
-    width: 345px;
-    float: left;
-    padding: 0;
-}
-
-section, #slides {
-    -webkit-border-radius: 12px;
-            border-radius: 12px;
-    -webkit-box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
-            box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
-}
-
-section {
-    margin-bottom: 20px;
-    width: 100%;
-    height: auto;
-    overflow: hidden;
-}
+/* Headings */
 
 h1 {
     background: #fff;
@@ -62,13 +40,76 @@ h1 {
     cursor: default;
 }
 
-/* Thumbnails */
+h2 { font-size: 40px; }
+h3 { font-size: 30px; }
 
+/* Containers */
+
+header, section, aside {
+    display: inline-block;
+    position: relative;
+    margin-bottom: 20px;
+}
+
+#accordion {
+    display: inline-block;
+    position: relative;
+    width: 345px;
+    float: left;
+    padding: 0;
+}
+
+article { }
+article img { display: block; margin: 0 0 0 -25px; }
+
+article .images li.active {
+    -webkit-transition:all 1.0s ease-in-out;
+       -moz-transition:all 1.0s ease-in-out;
+         -o-transition:all 1.0s ease-in-out;
+            transition:all 1.0s ease-in-out;
+}
+
+section {
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+}
+
+section, section h1,
+.thumbs, li a:hover, li.active {
+  -webkit-transition: all 0.5s ease-in-out;
+     -moz-transition: all 0.5s ease-in-out;
+       -o-transition: all 0.5s ease-in-out;
+          transition: all 0.5s ease-in-out;
+}
+
+section,
+#slides {
+    -webkit-border-radius: 12px;
+            border-radius: 12px;
+    -webkit-box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
+            box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
+}
 section ul {
     position: relative;
     margin: 15px 0 0 6px;
     padding: 0;
-    height: 0;
+}
+section.active .thumbs {
+    height: 75px;
+}
+section.active .thumbs,
+section.active .bullets {
+    display: block;
+}
+
+#eyes .thumbs {
+    width: 1060px;
+}
+.thumbs,
+.bullets {
+    list-style: none;
+    display: none;
 }
 .thumbs li {
     margin: 0 5px;
@@ -79,21 +120,6 @@ section ul {
 .thumbs li:last-child {
     margin-right: 5px;
 }
-
-section.active .thumbs {
-    height: 75px;
-}
-section.active .thumbs,
-section.active .bullets {
-    display: block;
-}
-
-.thumbs,
-.bullets {
-    list-style: none;
-    display: none;
-}
-
 .thumbs li {
     display: inline-block;
     width: auto;
@@ -113,11 +139,6 @@ section.active .bullets {
 .thumbs li.active a {
     border: 6px solid #58C0CB;
 }
-
-#eyes .thumbs {
-    width: 1060px;
-}
-
 
 /* Thumbnail Bullet Nav */
 
@@ -161,14 +182,22 @@ section.active .bullets {
     list-style: none;
     height: 300px;
     margin: 0;
+
+    -webkit-transition: all 1.0s ease-in-out;
+       -moz-transition: all 1.0s ease-in-out;
+         -o-transition: all 1.0s ease-in-out;
+            transition: all 1.0s ease-in-out;
+}
+#slides li a {
+    display: inline-block;
 }
 #slides li {
-    display: inline-block;
     position: absolute;
     width: auto;
     margin: 0;
+    display: none;
 
-    -webkit-transform: perspective( 800px ) rotateZ( 3060deg ) translateZ( -100000px );
+    /*-webkit-transform: perspective( 800px ) rotateZ( 3060deg ) translateZ( -100000px );
        -moz-transform: perspective( 0px ) rotateZ( 3060deg ) translateZ( -100000px );
         -ms-transform: perspective( 0px ) rotateZ( 3060deg ) translateZ( -100000px );
          -o-transform: perspective( 0px ) rotateZ( 3060deg ) translateZ( -100000px );
@@ -191,22 +220,20 @@ section.active .bullets {
         -ms-perspective-origin: 20% 75%;
          -o-perspective-origin: 20% 75%;
             perspective-origin: 20% 75%;
+            */
 }
 #slides li.active {
-    -webkit-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
+    display: inline-block;
+
+    /*-webkit-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
        -moz-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
         -ms-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
          -o-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
             transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
+            */
 }
 
-#slides li a {
-    display: inline-block;
-}
-
-#slides ul .first {
-    z-index: 10;
-}
+/* Arrow Nav */
 
 .arrows {
     position: relative;
@@ -218,9 +245,8 @@ section.active .bullets {
     padding: 20px;
     float: left;
 }
-#prev {
 
-}
+#prev { }
 #next {
     background-position: -60px 50%;
     float: right;
@@ -230,113 +256,10 @@ section.active .bullets {
     display: none;
 }
 
-/*
-    thumbs: 86x49;
-    large: 533x300;
-*/
-
-/* Overall Wrapper */
-.anythingSlider-default {
-    margin: 0 auto;
-    height: 300px !important;
-    overflow: hidden;
-}
-/* Make sure navigation text is visible */
-.anythingSlider-default .anythingControls a span {
-    visibility: visible;
-}
-
-/* Navigation Arrows */
-.anythingSlider-default .arrow {
-    display: block;
-    position: absolute;
-    top: 0;
-}
-
-.anythingSlider-default .arrow a {
-    background: url(../assets/results-arrows.png) no-repeat;
-    display: block;
-    width: 40px;
-    height: 300px;
-    outline: 0;
-}
-
-/* back arrow */
-.anythingSlider-default .back {
-    left: -40px;
-}
-.anythingSlider-default .back a {
-    background-position: 0 130px;
-}
-
-/* forward arrow */
-.anythingSlider-default .forward {
-    right: -40px;
-}
-.anythingSlider-default .forward a {
-    background-position: -60px 130px;
-}
-
-
-/* Overall Wrapper */
-.anythingSlider {
-    display: block;
-    position: relative;
-    overflow: visible !important;
-}
-/* anythingSlider viewport window */
-.anythingSlider .anythingWindow {
-    overflow: hidden;
-    position: relative;
-    width: 100%;
-    height: 300px;
-}
-/* anythingSlider base (original element) */
-.anythingSlider .anythingBase {
-    background: transparent;
-    list-style: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    margin: 0;
-    padding: 0;
-    overflow: visible !important;
-}
-
-/* Navigation arrow text; indent moved to span inside "a", for IE7;
-  apparently, a negative text-indent on an "a" link moves the link as well as the text */
-.anythingSlider .arrow span {
-    display: block;
-    visibility: hidden;
-}
-/* all panels inside the slider; horizontal mode */
-.anythingSlider .panel {
-    background: transparent;
-    display: block;
-    overflow: hidden;
-    float: left;
-    padding: 0;
-    margin: 0;
-}
-/* fade mode */
-.anythingSlider .fade .panel {
-    float: none;
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: -1;
-}
-/* fade mode active page - visible & on top */
-.anythingSlider .fade .activePage {
-    z-index: 0;
-}
-
-
-
 
 
 /* ==========================================================================
-   Media Queries
+   Media Queries - in case you wanted to make this responsive across devices
    ========================================================================== */
 
 @media only screen and (min-width: 480px) {
