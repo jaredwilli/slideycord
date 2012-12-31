@@ -30,7 +30,7 @@ var Slider = {
 		Slider.moveToSlide();
 
 		// Handle clicks on the sections of accordion
-		$('h1').on('click', function(e) {
+		$('h1', 'section').on('click', function(e) {
 			e.preventDefault();
 			if ($(this).parent().hasClass('active')) return;
 			$(Slider.activeSlide).animate({ opacity: 0 }).removeClass('active');

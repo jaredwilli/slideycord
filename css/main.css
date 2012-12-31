@@ -24,7 +24,7 @@ body {
 
 /* Headings */
 
-h1 {
+section h1 {
     background: #fff;
     color: #58C0CB;
     font-family: verdana;
@@ -34,7 +34,7 @@ h1 {
     padding: 12px;
     margin: 0;
 }
-.active h1 {
+section.active h1 {
     background: #58C0CB;
     color: #fff;
     cursor: default;
@@ -60,8 +60,6 @@ header, section, aside {
 }
 
 article { }
-article img { display: block; margin: 0 0 0 -25px; }
-
 article .images li.active {
     -webkit-transition:all 1.0s ease-in-out;
        -moz-transition:all 1.0s ease-in-out;
