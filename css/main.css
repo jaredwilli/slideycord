@@ -88,12 +88,12 @@ section.active .bullets {
     display: block;
 }
 
-
 .thumbs,
 .bullets {
     list-style: none;
     display: none;
 }
+
 .thumbs li {
     display: inline-block;
     width: auto;
@@ -152,22 +152,54 @@ section.active .bullets {
     display: inline-block;
     position: relative;
     float: left;
-    left: 20px;
     width: 612px;
     margin: 0 20px;
+    left: 20px;
     overflow: hidden;
 }
 #slides ul {
     list-style: none;
-    margin: 0;
     height: 300px;
+    margin: 0;
 }
 #slides li {
     display: inline-block;
     position: absolute;
     width: auto;
     margin: 0;
+
+    -webkit-transform: perspective( 800px ) rotateZ( 3060deg ) translateZ( -100000px );
+       -moz-transform: perspective( 0px ) rotateZ( 3060deg ) translateZ( -100000px );
+        -ms-transform: perspective( 0px ) rotateZ( 3060deg ) translateZ( -100000px );
+         -o-transform: perspective( 0px ) rotateZ( 3060deg ) translateZ( -100000px );
+            transform: perspective( 0px ) rotateZ( 3060deg ) translateZ( -100000px );
+
+    -webkit-transition: -webkit-transform 1.5s ease-in-out;
+       -moz-transition: -moz-transform 1.5s ease-in-out;
+        -ms-transition: -ms-transform 1.5s ease-in-out;
+         -o-transition: -o-transform 1.5s ease-in-out;
+            transition: transform 1.5s ease-in-out;
+
+    -webkit-transform-style: preserve-3d;
+       -moz-transform-style: preserve-3d;
+        -ms-transform-style: preserve-3d;
+         -o-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+
+    -webkit-perspective-origin: 20% 75%;
+       -moz-perspective-origin: 20% 75%;
+        -ms-perspective-origin: 20% 75%;
+         -o-perspective-origin: 20% 75%;
+            perspective-origin: 20% 75%;
 }
+#slides li.active {
+    -webkit-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
+       -moz-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
+        -ms-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
+         -o-transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
+            transform: perspective( 0px ) rotateZ( 0deg ) translateZ( 0px );
+}
+
 #slides li a {
     display: inline-block;
 }

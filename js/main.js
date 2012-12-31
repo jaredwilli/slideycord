@@ -16,14 +16,15 @@ var Slider = {
 	init: function() {
 		var sections = document.getElementsByTagName('section'),
 			thumbs = $('.thumbs'),
-			bullets = $('li', '.bullets');
+			images = $('.images'),
+			bullets = $('.bullets');
 
 		// Setup the initial state of the activeSlide, section, bullet and arrows
-		$(Slider.activeSection +', .thumbs li:first, .bullets li:first').addClass('active');
-		$(Slider.activeSection).find('.thumbs li, .bullets li').show();
-		$(Slider.activeSection).find('.expand').text('-');
-		$('#prev').attr('href', Slider.prevSlide);
-		$('#next').attr('href', Slider.nextSlide);
+		$(Slider.activeSection).addClass('active').find('.expand').text('-');
+		$('.thumbs, .bullets, .images').find('li:first').addClass('active').show();
+
+		document.getElementById('prev').href = Slider.prevSlide;
+		document.getElementById('next').href = Slider.nextSlide;
 
 		// Handle clicks on the sections of accordion
 		$('h1').on('click', function(e) {
@@ -31,33 +32,37 @@ var Slider = {
 			if ($(this).parent().hasClass('active')) return;
 
 			Slider.activeSection = '#' + $(this).parent().attr('id');
-			Slider.activeSlide = $(Slider.activeSection).find('.thumbs li:first a').attr('href').split('t')[0];
+			Slider.activeSlide = $(Slider.activeSection).find('.thumbs > li:first a').attr('href').split('t')[0];
 
 			Slider.collapse();
+			Slider.updateArrows();
+			Slider.moveToSlide();
+		});
+
+
+		// Handle clicks on thumbnails
+		$('li', thumbs).find('a').on('click', function(e) {
+			e.preventDefault();
+			if ($(this).parent().hasClass('active')) return;
+
+			Slider.activeSlide = $(this).attr('href');
+
+			$('.thumbs, .images').find('li').removeClass('active');
+			$(this).parent().addClass('active');
+
+			Slider.updateArrows();
+			Slider.moveToSlide();
 		});
 
 		// Handle clicks on the bullet nav
 		$(bullets).find('a').on('click', function(e) {
 			e.preventDefault();
 			if ($(this).parent().hasClass('active')) return;
+
 			Slider.activePage = $(this).attr('href');
 
-			$('.thumbs li, .bullets li').removeClass('active');
-			$(this).parent().addClass('active');
-
 			Slider.goToPage();
-		});
-
-		// Handle clicks on thumbnails
-		$('.thumbs li').find('a').on('click', function(e) {
-			e.preventDefault();
-			if ($(this).parent().hasClass('active')) return;
-
-			Slider.activeSlide = $(this).attr('href');
-
-			$('.thumbs').find('li').removeClass('active');
-			$(this).parent().addClass('active');
-
+			Slider.updateArrows();
 			Slider.moveToSlide();
 		});
 
@@ -65,9 +70,17 @@ var Slider = {
 		$('.arrows').find('a').on('click', function(e) {
 			e.preventDefault();
 
-			Slider.activeSlide = $(this).attr('href');
-			//$(this).attr('id');
 
+			if ($(Slider.activeSlide).hasClass('last')) {
+				Slider.activeSlide = '#' + $('li:last', '.images').attr('id');
+				Slider.activeSection = $('a[href='+ Slider.activeSlide +']').parents('section').attr('id');
+				Slider.collapse();
+			}
+
+			Slider.activeSlide = $(this).attr('href');
+
+			Slider.updateArrows();
+			//Slider.whatNow();
 			Slider.moveToSlide();
 		});
 
@@ -80,16 +93,14 @@ var Slider = {
 	 * And change the - to a + in the H1 tag
 	 */
 	collapse: function() {
-		console.log(Slider.activeSection);
+		console.log(Slider);
 
-		$('section').find('.thumbs').css({ left: 0 });
-		$('section, .thumbs li, .bullets li').removeClass('active');
-		$('section').find('.thumbs li, .bullets li').hide();
-		$('section').find('.expand').text('+');
+		$('.thumbs, .bullets').find('li').removeClass('active');
+		$('section').removeClass('active').find('.expand').text('+');
+		$('.thumbs', 'section').css({ left: 0 });
 
 		Slider.expand();
 	},
-
 	/**
 	 * Expand called by collapse method only.
 	 *
@@ -98,102 +109,89 @@ var Slider = {
 	 * and if necessary, make first bullet of thumbnail page nav active
 	 */
 	expand: function() {
-		//console.log(Slider.activeSection);
-		console.log();
+		console.log(Slider);
 
 		// Need to get the index of the first thumbnail of the expanded section
-		$(Slider.activeSection).find('.expand').text('-');
-		$(Slider.activeSection).addClass('active').find('.thumbs, .bullets').find('li:first').addClass('active');
-		$(Slider.activeSection).addClass('active').find('.thumbs, .bullets').find('li').show();
-
-		Slider.moveToSlide();
+		$('.thumbs, .bullets', Slider.activeSection).find('li:first').addClass('active').show();
+		$(Slider.activeSection).addClass('active').find('.expand').text('-');
 	},
-	/**
-	 * MoveToSlide called by the expand method and the goToPage method
-	 * for moving the slider of large images to the currently activeSlide
-	 *
-	 * This is the last method called
-	 */
-	moveToSlide: function() {
-		var images = $('.images').find('li');
-
-		images.hide();
-		$(Slider.activeSlide).show();
-
+	updateArrows: function() {
 		// Set the next/previous href values according to the activeSlide
 		Slider.prevSlide = '#' + $(Slider.activeSlide).prev().attr('id');
 		Slider.nextSlide = '#' + $(Slider.activeSlide).next().attr('id');
 
-		$('#prev').attr('href', Slider.prevSlide);
-		$('#next').attr('href', Slider.nextSlide);
+		// Fix the next/prev links when activeSlide is first or last
+		if ($(Slider.activeSlide).hasClass('first')) {
+			Slider.prevSlide = '#' + $('.last', '.images').attr('id');
+			Slider.collapse();
+		}
+		if ($(Slider.activeSlide).hasClass('last')) {
+			Slider.nextSlide = '#' + $('.first', '.images').attr('id');
+		}
+
+		document.getElementById('prev').href = Slider.prevSlide;
+		document.getElementById('next').href = Slider.nextSlide;
+		console.log(Slider.prevSlide, Slider.nextSlide);
+	},
+	/**
+	 * WhatNow is called by the next/previous arrow links to check
+	 * whether or not other actions should be done
+	 *
+	 * Calls goToPage if activeSlide thumbnail has an ID attribute
+	 * Calls collapse method if the ID of the parent section of the activeSlide changes
+	 */
+	whatNow: function() {
+		console.log(Slider);
+
+		$('.thumbs').find('li').removeClass('active');
+
+		$('a[href='+ Slider.activeSlide +']').parent().addClass('active');
+
+		if ($('.thumbs .active').attr('id') !== Slider.activePage) {
+			Slider.activePage = '#'+ $('.thumbs .active').attr('id');
+			Slider.goToPage();
+		}
+
 	},
 	/**
 	 * GoToPage called when clicking on bullet nav icons
+	 * or by the whatNow method if next/previous activate a new group
 	 * for showing the next group of 3 thumbnails that exist if any
+	 *
+	 * Sets the activeSlide to show the corresponding image
 	 */
 	goToPage: function() {
+		console.log(Slider);
+
 		Slider.activeSlide = $(Slider.activePage).find('a').attr('href');
 
-		$('.thumbs').find('li').removeClass('active');
-		$('.thumbs').find(Slider.activePage).addClass('active');
+		$('.thumbs, .bullets, .images').find('li').removeClass('active');
+		$('a[href='+ Slider.activePage +']').parent().addClass('active')
+		$(Slider.activePage).addClass('active');
+
+		//$(Slider.activeSlide).addClass('active');
 
 		if ($('#group-0').hasClass('active')) {
-			$('#group-0').parent().css({ left: 0 });
-		} else if ($('#group-1').hasClass('active')) {
+			$('#group-0').parent().css({ left: 0 +'px' });
+		}
+		else if ($('#group-1').hasClass('active')) {
 			$('#group-1').parent().css({ left: -336 +'px' });
-		} else if ($('#group-2').hasClass('active')) {
+		}
+		else if ($('#group-2').hasClass('active')) {
 			$('#group-2').parent().css({ left: -672 +'px' });
 		}
-
-		Slider.moveToSlide();
 	},
+	/**
+	 * MoveToSlide called by each click event handler
+	 * for moving the slider of large images to the currently activeSlide
+	 *
+	 * Always called last
+	 */
+	moveToSlide: function() {
+		console.log(Slider);
 
-	toArray: function(nodes) {
-		return Array.prototype.slice.call(nodes);
-	},
-	keyExists: function(key, search) {
-		if (!search || (search.constructor !== Array && search.constructor !== Object)) { return false; }
-		for (var i = 0; i < search.length; i++) {
-			if (search[i] === key) { return true; }
-		}
-		return key in search;
-	},
-	forEach: function(arr) {
-		[].forEach.call(arr, function(key, index) {
-			return [key, index];
-		});
-	},
-
-	anything: function(images) {
-		images.anythingSlider({
-			easing: "swing",
-			delay: 1000,
-			autoPlay: false,
-			hashTags: false,
-			resizeContents: false,
-			infiniteSlides: true,
-			buildNavigation: true,
-			buildStartStop: false,
-			navigationFormatter: function(i, panel) {
-				//Slider.thumbnails(index, '');
-				panel = panel[0];
-				/*return {
-					'class'  : panel.className,
-					'html': '<a class="panel' + i + '" href="#"><img src="assets/' + panel.id + 't.jpg" /></a>'
-				};*/
-			}
-		});
-
-		var activeIndex = $('li.activePage').index();
-		$('.arrow a').on('click', function(e) {
-			if ($(this).parent().hasClass('back')) {
-				Slider.highlight('arrows', $(this), activeIndex - 1);
-			} else if ($(this).parent().hasClass('forward')) {
-				Slider.highlight('arrows', $(this), activeIndex + 1);
-			}
-			e.preventDefault();
-		});
+		$('li', '.images').removeClass('active');
+		$(Slider.activeSlide).addClass('active');
 	}
-
 };
 Slider.init();
