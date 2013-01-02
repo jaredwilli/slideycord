@@ -191,10 +191,10 @@ var Slider = {
 			$('#group-0').parent().css({ left: 0 +'px' });
 		}
 		else if ($('#group-1').hasClass('active')) {
-			$('#group-1').parent().css({ left: -336 +'px' });
+			$('#group-1').parent().css({ left: -340 +'px' });
 		}
 		else if ($('#group-2').hasClass('active')) {
-			$('#group-2').parent().css({ left: -672 +'px' });
+			$('#group-2').parent().css({ left: -679 +'px' });
 		}
 	},
 	/**

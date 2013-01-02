@@ -25,7 +25,6 @@ body {
 /* Headings */
 
 section h1 {
-    background: #fff;
     color: #58C0CB;
     font-family: verdana;
     font-weight: normal;
@@ -38,6 +37,9 @@ section.active h1 {
     background: #58C0CB;
     color: #fff;
     cursor: default;
+
+    -webkit-border-radius: 12px 12px 0 0;
+            border-radius: 12px 12px 0 0;
 }
 
 h2 { font-size: 40px; }
@@ -72,22 +74,20 @@ section {
     height: auto;
     overflow: hidden;
 }
-
-section, section h1,
-.thumbs, li a:hover, li.active {
+section, #slides {
+    -webkit-border-radius: 12px;
+            border-radius: 12px;
+    -webkit-box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
+            box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
+}
+section, section h1, li.active,
+.thumbs, .thumbs li a:hover {
   -webkit-transition: all 0.5s ease-in-out;
      -moz-transition: all 0.5s ease-in-out;
        -o-transition: all 0.5s ease-in-out;
           transition: all 0.5s ease-in-out;
 }
 
-section,
-#slides {
-    -webkit-border-radius: 12px;
-            border-radius: 12px;
-    -webkit-box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
-            box-shadow: 0 0 15px 0 rgba(30,30,30,0.5);
-}
 section ul {
     position: relative;
     margin: 15px 0 0 6px;
@@ -104,8 +104,8 @@ section.active .bullets {
 #eyes .thumbs {
     width: 1060px;
 }
-.thumbs,
-.bullets {
+
+.thumbs, .bullets {
     list-style: none;
     display: none;
 }
@@ -154,7 +154,7 @@ section.active .bullets {
     overflow: hidden;
 }
 .bullets a {
-    background: url(../assets/bullet.png) no-repeat 0 0;
+    background: url(../assets/bullet.png) no-repeat 0 1px;
     text-indent: -999em;
     position: relative;
     padding: 0 6px;
@@ -163,7 +163,6 @@ section.active .bullets {
 .bullets li.active a {
     background-position: 0 -12px;
 }
-
 
 /* Slides */
 
@@ -253,7 +252,6 @@ section.active .bullets {
     text-indent: -999em;
     display: none;
 }
-
 
 
 /* ==========================================================================
